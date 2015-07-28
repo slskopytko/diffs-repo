@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: partuza
 -- ------------------------------------------------------
--- Server version	5.0.67
+-- Server version	5.0.51a
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,15 +24,14 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `activities` (
   `id` int(11) NOT NULL auto_increment,
-  `person_id` int(11) NOT NULL,
-  `app_id` int(11) NOT NULL,
-  `title` mediumtext NOT NULL,
-  `body` mediumtext NOT NULL,
+  `activity_stream_id` int(11) NOT NULL,
+  `title` char(128) NOT NULL,
+  `body` char(255) NOT NULL,
   `created` int(11) NOT NULL,
   KEY `id` (`id`),
-  KEY `activity_stream_id` (`person_id`),
+  KEY `activity_stream_id` (`activity_stream_id`),
   KEY `created` (`created`)
-) ENGINE=MyISAM AUTO_INCREMENT=2880 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -50,7 +49,23 @@ CREATE TABLE `activity_media_items` (
   `url` char(128) NOT NULL,
   KEY `id` (`id`),
   KEY `activity_id` (`activity_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2472 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `activity_streams`
+--
+
+DROP TABLE IF EXISTS `activity_streams`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `activity_streams` (
+  `id` int(11) NOT NULL auto_increment,
+  `person_id` int(11) NOT NULL,
+  `title` char(128) NOT NULL,
+  KEY `id` (`id`),
+  KEY `person_id` (`person_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -74,7 +89,7 @@ CREATE TABLE `addresses` (
   `address_type` char(128) default NULL,
   `unstructured_address` char(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=247 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -87,9 +102,10 @@ SET character_set_client = utf8;
 CREATE TABLE `application_settings` (
   `application_id` int(11) NOT NULL,
   `person_id` int(11) NOT NULL,
+  `module_id` int(11) NOT NULL,
   `name` char(128) NOT NULL,
   `value` char(255) NOT NULL,
-  UNIQUE KEY `application_id` (`application_id`,`person_id`,`name`)
+  UNIQUE KEY `application_id` (`application_id`,`person_id`,`module_id`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -111,14 +127,10 @@ CREATE TABLE `applications` (
   `author_email` char(128) default NULL,
   `description` mediumtext,
   `settings` mediumtext,
-  `views` mediumtext,
-  `version` varchar(64) NOT NULL,
-  `height` int(11) NOT NULL default '0',
-  `scrolling` int(11) NOT NULL default '0',
   `modified` int(11) NOT NULL,
   UNIQUE KEY `url` (`url`),
   KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=696 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -244,7 +256,7 @@ CREATE TABLE `person_applications` (
   PRIMARY KEY  (`id`),
   KEY `person_id` (`person_id`),
   KEY `application_id` (`application_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2469 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -591,7 +603,7 @@ CREATE TABLE `persons` (
   PRIMARY KEY  (`id`),
   KEY `nickname` (`nickname`),
   KEY `email` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=588 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -603,4 +615,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-10-16 12:43:53
+-- Dump completed on 2008-05-02 19:39:03
